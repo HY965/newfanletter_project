@@ -9,7 +9,6 @@ const Header = () => {
   return (
     <HeaderBox>
       <HeaderName>✉️💘 내배캠 4기 REACT 튜터님 레터함 💘✉️</HeaderName>
-      <p>어렵다 어려워...ㅜㅜ 현기증나욧🤢🤢🤮🤢</p>
     </HeaderBox>
   );
 };
