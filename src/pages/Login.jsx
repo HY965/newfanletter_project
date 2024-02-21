@@ -11,6 +11,9 @@ function Login() {
   const [password, sePassword] = useState("");
   const [nickname, setNickname] = useState("");
 
+  const isLoginDisabled = id === "" || password === "";
+  const isSignUpDisabled = id === "" || password === "" || nickname === "";
+
   const idOnChangeHandler = (e) => {
     setId(e.target.value);
   };
@@ -23,29 +26,45 @@ function Login() {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    // if (!id || !password) {
-    //   return alert("아이디와 비밀번호를 입력해주세요");
-    // }
     if (isLoginMode) {
-      const { data } = await axios.post(
-        "https://moneyfulpublicpolicy.co.kr/login",
-        {
-          id,
-          password,
+      try {
+        const { data } = await axios.post(
+          "https://moneyfulpublicpolicy.co.kr/login",
+          {
+            id,
+            password,
+          }
+        );
+        if (data.success) {
+          dispatch(login());
+          alert("로그인 완료");
         }
-      );
-      if (data.success) {
-        dispatch(login());
-        alert("로그인 완료");
+      } catch (err) {
+        alert(err.response.data.message);
+        console.log("err:", err);
       }
     } else {
-      setIsLoginMode(true);
-      alert("회원가입 완료");
-      e.target.reset();
+      try {
+        const { data } = await axios.post(
+          "https://moneyfulpublicpolicy.co.kr/register",
+          {
+            id,
+            password,
+            nickname,
+          }
+        );
+        console.log("signupdata", data);
+        if (data.success) {
+          setIsLoginMode(true);
+          alert("회원가입 완료");
+          e.target.reset();
+        }
+      } catch (err) {
+        alert(err.response.data.message);
+        console.log("err:", err);
+      }
     }
   };
-
-  const isLoginDisabled = id === "" || password === "";
 
   const loginOnClickHandler = () => {
     if (!isLoginMode) {
@@ -78,11 +97,9 @@ function Login() {
                 minLength={4}
                 maxLength={10}
               />
-              <button isLoginDisabled={isLoginDisabled}>로그인</button>
+              <Button>로그인</Button>
             </CardForm>
-            <LoginandSingUp onClick={loginOnClickHandler}>
-              회원가입
-            </LoginandSingUp>
+            <span onClick={loginOnClickHandler}>회원가입</span>
           </CardWrapper>
         ) : (
           <CardWrapper>
@@ -112,11 +129,9 @@ function Login() {
                 minLength={2}
                 maxLength={10}
               />
-              <button>회원가입</button>
+              <Button>회원가입</Button>
             </CardForm>
-            <LoginandSingUp onClick={loginOnClickHandler}>
-              로그인
-            </LoginandSingUp>
+            <span onClick={loginOnClickHandler}>로그인</span>
           </CardWrapper>
         )}
       </div>
@@ -128,7 +143,6 @@ export default Login;
 
 const CardWrapper = styled.article`
   width: 500px;
-  height: 300px;
   background-color: #cfcfcf;
   border-radius: 7px;
   padding: 1.5rem;
@@ -137,12 +151,25 @@ const CardWrapper = styled.article`
     font-size: 25px;
     margin-bottom: 40px;
   }
+  & span {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    color: white;
+    &:hover {
+      transition: all 0.2s ease 0s;
+      color: black;
+    }
+  }
 `;
 
 const CardForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  font-weight: bold;
 
   & input {
     border-top: none;
@@ -150,24 +177,22 @@ const CardForm = styled.form`
     border-left: none;
     border-bottom: 1px solid gray;
     outline: none;
-  }
-
-  & button {
-    font-size: 16px;
-    padding: 5px 10px;
-    cursor: pointer;
-    height: 30px;
-    margin-left: auto;
-    &:islogindisabled {
-      cursor: not-allowed;
-    }
+    padding: 1rem;
   }
 `;
 
-const LoginandSingUp = styled.span`
+const Button = styled.button`
+  font-size: 16px;
+  padding: 5px 10px;
+  border: none;
+  height: 30px;
+  background-color: rgb(10, 88, 202);
+  transition: all 0.4s ease 0s;
+  color: white;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
+  &:hover {
+    background-color: white;
+    transition: all 0.2s ease 0s;
+    color: black;
+  }
 `;
