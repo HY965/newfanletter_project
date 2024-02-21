@@ -1,15 +1,19 @@
 import styled from "styled-components";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteLetter, modifyLetter } from "../redux/modules/letter";
 
-const Detail = ({ letter, setLetter }) => {
+const Detail = () => {
+  const dispatch = useDispatch();
+  const letter = useSelector((state) => state.letter);
   const navigate = useNavigate();
   const { id } = useParams();
 
   const letterDetail = letter.find((letter) => letter.id === id);
   const { nickname, createdAt, content, avatar, writedTo } = letterDetail;
   const [isModify, setIsModify] = useState(false);
-  const [ModifyText, setModifyText] = useState("");
+  const [modifyText, setModifyText] = useState("");
 
   // 날짜 KR변환
   const todayTime = new Date(createdAt).toLocaleDateString("ko-KR", {
@@ -26,9 +30,9 @@ const Detail = ({ letter, setLetter }) => {
     //window.confirm 메서드는 메시지와 함게 확인,취소 버튼은 보여주며 boolean 값을 반환한다. (확인:true / 취소: false를 반환)
     const iscontirmed = window.confirm("삭제하시겠습니까?");
     if (!iscontirmed) return;
-    const newLetters = letter.filter((letter) => letter.id !== id);
+
+    dispatch(deleteLetter(id));
     navigate("/");
-    setLetter(newLetters);
   };
 
   // 취소,수정 ,수정완료
@@ -46,16 +50,10 @@ const Detail = ({ letter, setLetter }) => {
   };
 
   const onClickModifyDone = () => {
-    if (!ModifyText) {
+    if (!modifyText) {
       return alert("수정사항이 없습니다.");
     }
-    const newLetter = letter.map((letter) => {
-      if (letter.id === id) {
-        return { ...letter, content: ModifyText };
-      }
-      return letter;
-    });
-    setLetter(newLetter);
+    dispatch(modifyLetter({ id, modifyText }));
     setIsModify(false);
     setModifyText("");
   };

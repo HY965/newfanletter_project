@@ -10,8 +10,11 @@ import {
   Addbutton,
   Form,
 } from "../style/CommentFormStyle";
+import { useDispatch } from "react-redux";
+import { addLetter } from "../redux/modules/letter";
 // 이벤트 설정
-const CommentForm = ({ letter, setLetter }) => {
+const CommentForm = () => {
+  const dispatch = useDispatch();
   const [nickname, setNickname] = useState("");
   const [content, setContent] = useState("");
   const [tutors, setTutors] = useState("권혁우 튜터님");
@@ -34,14 +37,15 @@ const CommentForm = ({ letter, setLetter }) => {
       return alert("닉네임과 내용을 입력하세요");
     }
     const newLetter = {
-      createdAt: new Date(),
+      createdAt: new Date().toString(),
       nickname,
       avatar: null,
       content,
       writedTo: tutors,
       id: uuid(),
     };
-    setLetter((prevLetter) => [...prevLetter, newLetter]);
+    dispatch(addLetter(newLetter));
+
     e.target.reset();
   };
 

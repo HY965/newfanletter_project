@@ -1,40 +1,110 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/modules/authSlice";
 import styled from "styled-components";
 
 function Login() {
-  const [changeState, setChangeState] = useState(false);
+  const dispatch = useDispatch();
+  const [isLoginMode, setIsLoginMode] = useState(true);
+  const [id, setId] = useState("");
+  const [password, sePassword] = useState("");
+  const [nickname, setNickname] = useState("");
+
+  const idOnChangeHandler = (e) => {
+    setId(e.target.value);
+  };
+  const passwordOnChangeHandler = (e) => {
+    sePassword(e.target.value);
+  };
+  const nicknameOnChangeHandler = (e) => {
+    setNickname(e.target.value);
+  };
+  console.log("아이디:", id, "비번:", password, "닉네임:", nickname);
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    if (isLoginMode) {
+      dispatch(login());
+      alert("로그인 성공");
+    } else {
+      setIsLoginMode(true);
+      alert("회원가입 완료");
+      sePassword("");
+      setNickname("");
+      setId("");
+    }
+  };
 
   const loginOnClickHandler = () => {
-    if (!changeState) {
-      setChangeState(true);
+    if (!isLoginMode) {
+      setIsLoginMode(true);
       return;
     }
-    setChangeState(false);
+    setIsLoginMode(false);
   };
+
   return (
     <>
       <div>
-        {changeState ? (
-          <CardWrapper>
-            <h2>회원가입</h2>
+        {isLoginMode ? (
+          <CardWrapper onSubmit={onSubmitHandler}>
+            <h2>로그인</h2>
             <CardForm>
-              <input type="text" placeholder="아이디를 입력해주세요" />
-              <input type="password" placeholder="비밀번호를 입력해주세요" />
-              <input type="text" placeholder="닉네임을 입력해주세요" />
-              <button>회원가입</button>
+              <input
+                onChange={idOnChangeHandler}
+                value={id}
+                type="text"
+                placeholder="아이디를 입력해주세요 (4~10글자)"
+                minLength={4}
+                maxLength={10}
+              />
+              <input
+                onChange={passwordOnChangeHandler}
+                value={password}
+                type="password"
+                placeholder="비밀번호를 입력해주세요 (4~10글자)"
+                minLength={4}
+                maxLength={10}
+              />
+              <button>로그인</button>
             </CardForm>
-            <span onChange={loginOnClickHandler}>로그인</span>
+            <LoginandSingUp onClick={loginOnClickHandler}>
+              회원가입
+            </LoginandSingUp>
           </CardWrapper>
         ) : (
           <CardWrapper>
-            <h2>로그인</h2>
-            <CardForm>
-              <input type="text" placeholder="아이디를 입력해주세요" />
-              <input type="password" placeholder="비밀번호를 입력해주세요" />
-              <button>로그인</button>
+            <h2>회원가입</h2>
+            <CardForm onSubmit={onSubmitHandler}>
+              <input
+                onChange={idOnChangeHandler}
+                value={id}
+                type="text"
+                placeholder="아이디를 입력해주세요 (4~10글자)"
+                minLength={4}
+                maxLength={10}
+              />
+              <input
+                onChange={passwordOnChangeHandler}
+                value={password}
+                type="password"
+                placeholder="비밀번호를 입력해주세요 (4~10글자)"
+                minLength={4}
+                maxLength={10}
+              />
+              <input
+                onChange={nicknameOnChangeHandler}
+                value={nickname}
+                type="text"
+                placeholder="닉네임을 입력해주세요 (2~10글자)"
+                minLength={2}
+                maxLength={10}
+              />
+              <button>회원가입</button>
             </CardForm>
-            <span>회원가입</span>
+            <LoginandSingUp onClick={loginOnClickHandler}>
+              로그인
+            </LoginandSingUp>
           </CardWrapper>
         )}
       </div>
@@ -46,8 +116,9 @@ export default Login;
 
 const CardWrapper = styled.article`
   width: 500px;
-  height: 50vh;
+  height: 300px;
   background-color: #cfcfcf;
+  border-radius: 7px;
   padding: 1.5rem;
   & h2 {
     font-weight: bold;
@@ -68,4 +139,20 @@ const CardForm = styled.form`
     border-bottom: 1px solid gray;
     outline: none;
   }
+
+  & button {
+    font-size: 16px;
+    padding: 5px 10px;
+    cursor: pointer;
+    height: 30px;
+    margin-left: auto;
+  }
+`;
+
+const LoginandSingUp = styled.span`
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
 `;
