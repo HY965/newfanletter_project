@@ -1,9 +1,16 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-const CommentProfile = ({ activeItem, letter }) => {
+const CommentProfile = () => {
+  const activeItem = useSelector((state) => state.activeItem);
+  const letter = useSelector((state) => state.letter);
+
   const filterActionImg = letter.filter(
     (letter) => letter.writedTo === activeItem
   );
+  // const actionProfile = (e) => {
+  //   setActiveProfile(e.target.textContent);
+  // };
 
   return (
     <>
