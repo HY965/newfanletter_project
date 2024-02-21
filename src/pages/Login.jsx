@@ -27,8 +27,17 @@ function Login() {
     //   return alert("아이디와 비밀번호를 입력해주세요");
     // }
     if (isLoginMode) {
-      dispatch(login());
-      alert("로그인 완료");
+      const { data } = await axios.post(
+        "https://moneyfulpublicpolicy.co.kr/login",
+        {
+          id,
+          password,
+        }
+      );
+      if (data.success) {
+        dispatch(login());
+        alert("로그인 완료");
+      }
     } else {
       setIsLoginMode(true);
       alert("회원가입 완료");
