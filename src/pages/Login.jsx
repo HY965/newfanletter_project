@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/modules/authSlice";
 import styled from "styled-components";
 import axios from "axios";
+import { authApi } from "api/auth-api";
 
 function Login() {
   const dispatch = useDispatch();
@@ -28,15 +29,12 @@ function Login() {
     e.preventDefault();
     if (isLoginMode) {
       try {
-        const { data } = await axios.post(
-          "https://moneyfulpublicpolicy.co.kr/login",
-          {
-            id,
-            password,
-          }
-        );
+        const { data } = await authApi.post("/login", {
+          id,
+          password,
+        });
         if (data.success) {
-          dispatch(login());
+          dispatch(login(data.accessToken));
           alert("로그인 완료");
         }
       } catch (err) {
@@ -45,15 +43,11 @@ function Login() {
       }
     } else {
       try {
-        const { data } = await axios.post(
-          "https://moneyfulpublicpolicy.co.kr/register",
-          {
-            id,
-            password,
-            nickname,
-          }
-        );
-        console.log("signupdata", data);
+        const { data } = await authApi.post("/register", {
+          id,
+          password,
+          nickname,
+        });
         if (data.success) {
           setIsLoginMode(true);
           alert("회원가입 완료");
