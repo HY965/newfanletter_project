@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/modules/authSlice";
 import styled from "styled-components";
-import axios from "axios";
 import { authApi } from "api/auth-api";
 
 function Login() {
@@ -13,7 +12,6 @@ function Login() {
   const [nickname, setNickname] = useState("");
 
   const isLoginDisabled = id === "" || password === "";
-  const isSignUpDisabled = id === "" || password === "" || nickname === "";
 
   const idOnChangeHandler = (e) => {
     setId(e.target.value);
@@ -33,8 +31,9 @@ function Login() {
           id,
           password,
         });
+        const { accessToken, avatar, nickname, userId } = data;
         if (data.success) {
-          dispatch(login(data.accessToken));
+          dispatch(login({ accessToken, avatar, nickname, userId }));
           alert("로그인 완료");
         }
       } catch (err) {
@@ -91,7 +90,7 @@ function Login() {
                 minLength={4}
                 maxLength={10}
               />
-              <Button>로그인</Button>
+              <Button disabled={isLoginDisabled}>로그인</Button>
             </CardForm>
             <span onClick={loginOnClickHandler}>회원가입</span>
           </CardWrapper>
@@ -176,17 +175,20 @@ const CardForm = styled.form`
 `;
 
 const Button = styled.button`
-  font-size: 16px;
-  padding: 5px 10px;
+  padding: 9px 10px;
   border: none;
-  height: 30px;
-  background-color: rgb(10, 88, 202);
+  font-size: 1rem;
+  background-color: #0072d2;
   transition: all 0.4s ease 0s;
   color: white;
   cursor: pointer;
   &:hover {
-    background-color: white;
+    background-color: #0682f0;
     transition: all 0.2s ease 0s;
-    color: black;
+  }
+  &:disabled {
+    pointer-events: none;
+    border: 1px solid #a1a1a1;
+    background-color: #cfcfcf;
   }
 `;

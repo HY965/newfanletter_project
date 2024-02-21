@@ -1,4 +1,4 @@
-import uuid from "react-uuid";
+import { v4 as uuid } from "uuid";
 import { useState } from "react";
 import {
   InputWrapper,
@@ -10,18 +10,20 @@ import {
   Addbutton,
   Form,
 } from "../style/CommentFormStyle";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addLetter } from "../redux/modules/letter";
 // 이벤트 설정
 const CommentForm = () => {
   const dispatch = useDispatch();
-  const [nickname, setNickname] = useState("");
+  const { avatar, nickname } = useSelector((state) => state.authSlice);
+  console.log("nickname:", nickname);
+  // const [nickname, setNickname] = useState("");
   const [content, setContent] = useState("");
   const [tutors, setTutors] = useState("권혁우 튜터님");
 
-  const nicknameChangeHandler = (event) => {
-    setNickname(event.target.value);
-  };
+  // const nicknameChangeHandler = (event) => {
+  //   setNickname(event.target.value);
+  // };
   const contentChangeHandler = (event) => {
     setContent(event.target.value);
   };
@@ -39,13 +41,12 @@ const CommentForm = () => {
     const newLetter = {
       createdAt: new Date().toString(),
       nickname,
-      avatar: null,
+      avatar,
       content,
       writedTo: tutors,
       id: uuid(),
     };
     dispatch(addLetter(newLetter));
-
     e.target.reset();
   };
 
@@ -54,14 +55,15 @@ const CommentForm = () => {
       <Form onSubmit={handleSubmit}>
         <InputNameAndComment>
           <InputTitle>닉네임:</InputTitle>
-          <InputInfo
+          <p>{nickname}</p>
+          {/* <InputInfo
             onChange={nicknameChangeHandler}
             value={nickname}
             type="text"
             placeholder="닉네임을 적어주세요."
             name="user-name"
             maxLength={15}
-          />
+          /> */}
         </InputNameAndComment>
         <InputNameAndComment>
           <InputTitle>내용:</InputTitle>
@@ -76,7 +78,7 @@ const CommentForm = () => {
         </InputNameAndComment>
         <InputNameAndComment>
           <p>누구에게 보내실 건가요?</p>
-          <select onChange={selectActorChangeHandler}>
+          <select onChange={selectActorChangeHandler} value={tutors}>
             <option>권혁우 튜터님</option>
             <option>김병연 튜터님</option>
             <option>박가현 튜터님</option>
