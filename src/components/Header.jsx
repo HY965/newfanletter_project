@@ -18,7 +18,7 @@ export default Header;
 const HeaderBox = styled.header`
   height: 150px;
   background-color: black;
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
   padding: 3rem;
   color: #f9f9f9;
   text-align: center;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/modules/authSlice";
 import styled from "styled-components";
+import axios from "axios";
 
 function Login() {
   const dispatch = useDispatch();
@@ -19,21 +20,23 @@ function Login() {
   const nicknameOnChangeHandler = (e) => {
     setNickname(e.target.value);
   };
-  console.log("아이디:", id, "비번:", password, "닉네임:", nickname);
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
+    // if (!id || !password) {
+    //   return alert("아이디와 비밀번호를 입력해주세요");
+    // }
     if (isLoginMode) {
       dispatch(login());
-      alert("로그인 성공");
+      alert("로그인 완료");
     } else {
       setIsLoginMode(true);
       alert("회원가입 완료");
-      sePassword("");
-      setNickname("");
-      setId("");
+      e.target.reset();
     }
   };
+
+  const isLoginDisabled = id === "" || password === "";
 
   const loginOnClickHandler = () => {
     if (!isLoginMode) {
@@ -66,7 +69,7 @@ function Login() {
                 minLength={4}
                 maxLength={10}
               />
-              <button>로그인</button>
+              <button isLoginDisabled={isLoginDisabled}>로그인</button>
             </CardForm>
             <LoginandSingUp onClick={loginOnClickHandler}>
               회원가입
@@ -146,6 +149,9 @@ const CardForm = styled.form`
     cursor: pointer;
     height: 30px;
     margin-left: auto;
+    &:islogindisabled {
+      cursor: not-allowed;
+    }
   }
 `;
 

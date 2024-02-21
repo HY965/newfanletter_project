@@ -1,14 +1,13 @@
 import fakeData from "../../shared/fakeData.json";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = fakeData;
 const letterSlice = createSlice({
   name: "letter",
-  initialState,
+  initialState: fakeData,
   reducers: {
+    setLetter: (state, action) => {},
     addLetter: (state, action) => {
-      const newLetter = action.payload;
-      return [newLetter, ...state];
+      state.letter.unshift(action.payload);
     },
     deleteLetter: (state, action) => {
       const letterId = action.payload;
