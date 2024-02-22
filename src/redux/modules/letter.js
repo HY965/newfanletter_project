@@ -1,27 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import fakeData from "../../shared/fakeData.json";
-import axios from "axios";
-
-// redux Thunk
-// const initialState = {
-//   letter: [],
-//   isLoading: false,
-//   isError: false,
-//   error: null,
-// };
-
-// const __addLetter = createAsyncThunk(
-//   "addLetter",
-
-//   async (nextLetter, thunkAPI) => {
-//     try {
-//       await axios.post("http://localhost:5001/letter", nextLetter);
-//       await axios.get("");
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
 
 const letterSlice = createSlice({
   name: "letter",

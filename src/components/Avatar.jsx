@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 function Avatar({ src, size }) {
   return (
     <AvatarFigure size={size}>
-      <img src={src ?? defultUser} alt="이미지" />
+      <img src={src ?? defultUser} alt="유저 프로필이미지" />
     </AvatarFigure>
   );
 }
