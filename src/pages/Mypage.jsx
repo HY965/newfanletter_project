@@ -2,7 +2,6 @@ import Avatar from "components/Avatar";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import defaultUser from "assets/defaultUser.png";
 
 function Mypage() {
   const { avatar, nickname, userId } = useSelector((state) => state.authSlice);
@@ -28,7 +27,7 @@ function Mypage() {
       <MypageWrapper>
         <h3>마이페이지</h3>
         <label>
-          <Avatar src={modifyImg ?? defaultUser} />
+          <Avatar src={modifyImg} />
           <input
             type="file"
             style={{ display: "none" }}
@@ -82,6 +81,7 @@ const MypageWrapper = styled.section`
   padding: 1rem;
   width: 500px;
   gap: 20px;
+  border-radius: 0 0 10px 10px;
   & input {
     outline: none;
   }
