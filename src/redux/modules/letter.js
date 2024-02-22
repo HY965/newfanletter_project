@@ -1,13 +1,38 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import fakeData from "../../shared/fakeData.json";
-import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+// redux Thunk
+// const initialState = {
+//   letter: [],
+//   isLoading: false,
+//   isError: false,
+//   error: null,
+// };
+
+// const __addLetter = createAsyncThunk(
+//   "addLetter",
+
+//   async (nextLetter, thunkAPI) => {
+//     try {
+//       await axios.post("http://localhost:5001/letter", nextLetter);
+//       await axios.get("");
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error);
+//     }
+//   }
+// );
 
 const letterSlice = createSlice({
   name: "letter",
   initialState: fakeData,
   reducers: {
-    setLetter: (state, action) => {},
+    // setLetter: (state, action) => {},
     addLetter: (state, action) => {
-      state.letter.unshift(action.payload);
+      const newLetter = action.payload;
+      // return [newLetter, ...state];
+      state.unshift(newLetter);
+      // state.letter.unshift(action.payload);
     },
     deleteLetter: (state, action) => {
       const letterId = action.payload;

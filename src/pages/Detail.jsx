@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteLetter, modifyLetter } from "../redux/modules/letter";
+import Avatar from "components/Avatar";
 
 const Detail = () => {
   const dispatch = useDispatch();
@@ -60,15 +61,9 @@ const Detail = () => {
 
   return (
     <Container>
-      <MainBtnWrapper>
-        <Link to="/">
-          <MainBtn type="text">main으로 가기</MainBtn>
-        </Link>
-      </MainBtnWrapper>
-
       <DetailWrapper>
         <UserInfo>
-          <UserImg src={avatar} />
+          <Avatar src={null} />
           <p>{nickname}</p>
           <p>{todayTime}</p>
         </UserInfo>
@@ -80,7 +75,7 @@ const Detail = () => {
              autoFocus 속성을 기본적으로 가지고있다! 
              defaultValue 속성은 초기값을 넣을수있다.*/}
             <Textarea
-              // autoFocus
+              autoFocus
               defaultValue={content}
               onChange={textareaChangeHandler}
             />
@@ -160,7 +155,7 @@ const UserInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 10px 10px 0 0;
+  /* border-radius: 10px 10px 0 0; */
   gap: 15px;
 `;
 
@@ -170,18 +165,6 @@ const ButtonWrapper = styled.div`
   padding: 1rem;
   margin-top: 50px;
   gap: 10px;
-`;
-
-const UserImg = styled.img`
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  overflow: hidden;
-  &img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 `;
 
 const UserWritedTo = styled.p`

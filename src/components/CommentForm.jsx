@@ -15,15 +15,11 @@ import { addLetter } from "../redux/modules/letter";
 // 이벤트 설정
 const CommentForm = () => {
   const dispatch = useDispatch();
-  const { avatar, nickname } = useSelector((state) => state.authSlice);
-  console.log("nickname:", nickname);
-  // const [nickname, setNickname] = useState("");
+  const { avatar, nickname, userId } = useSelector((state) => state.authSlice);
+
   const [content, setContent] = useState("");
   const [tutors, setTutors] = useState("권혁우 튜터님");
 
-  // const nicknameChangeHandler = (event) => {
-  //   setNickname(event.target.value);
-  // };
   const contentChangeHandler = (event) => {
     setContent(event.target.value);
   };
@@ -45,6 +41,7 @@ const CommentForm = () => {
       content,
       writedTo: tutors,
       id: uuid(),
+      userId,
     };
     dispatch(addLetter(newLetter));
     e.target.reset();
@@ -56,14 +53,6 @@ const CommentForm = () => {
         <InputNameAndComment>
           <InputTitle>닉네임:</InputTitle>
           <p>{nickname}</p>
-          {/* <InputInfo
-            onChange={nicknameChangeHandler}
-            value={nickname}
-            type="text"
-            placeholder="닉네임을 적어주세요."
-            name="user-name"
-            maxLength={15}
-          /> */}
         </InputNameAndComment>
         <InputNameAndComment>
           <InputTitle>내용:</InputTitle>

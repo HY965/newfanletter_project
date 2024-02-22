@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 const CommentList = () => {
   const activeItem = useSelector((state) => state.activeItem);
   const letter = useSelector((state) => state.letter);
+
   const filterLetter = letter.filter(
     (letter) => letter.writedTo === activeItem
   );

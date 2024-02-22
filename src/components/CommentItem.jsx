@@ -6,6 +6,7 @@ import {
   UserInfoWrapper,
 } from "../style/CommentListStyle";
 import { useNavigate } from "react-router-dom";
+import Avatar from "./Avatar";
 
 const CommentItem = ({ letter }) => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const CommentItem = ({ letter }) => {
     <UserInfoWrapper onClick={() => navigate(`/detail/${letter.id}`)}>
       <UserInfo>
         <UserImg>
-          <img src={letter.avatar} alt="유저 프로필 이미지" />
+          <Avatar src={letter.Avatar} />
         </UserImg>
         <UserName>
           <p>{letter.nickname}</p>

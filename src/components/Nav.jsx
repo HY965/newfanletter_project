@@ -79,23 +79,23 @@ const NavTepItem = styled.li`
   cursor: pointer;
 `;
 
-const ProfileInfo = styled.div`
-  background-color: #ccc;
-  width: 650px;
-  padding: 1rem;
-  margin-top: 20px;
-  border-radius: 10px;
-`;
+// const ProfileInfo = styled.div`
+//   background-color: #ccc;
+//   width: 650px;
+//   padding: 1rem;
+//   margin-top: 20px;
+//   border-radius: 10px;
+// `;
 
-const Img = styled.img`
-  height: 200px;
-  width: 200px;
-  overflow: hidden;
-`;
+// const Img = styled.img`
+//   height: 200px;
+//   width: 200px;
+//   overflow: hidden;
+// `;
 
-const Title = styled.h2`
-  font-weight: bold;
-  font-size: 20px;
-  padding: 1rem;
-  margin: 0 auto;
-`;
+// const Title = styled.h2`
+//   font-weight: bold;
+//   font-size: 20px;
+//   padding: 1rem;
+//   margin: 0 auto;
+// `;
